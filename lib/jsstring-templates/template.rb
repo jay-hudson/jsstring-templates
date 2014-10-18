@@ -3,7 +3,7 @@ require 'jsstring-templates/compact_javascript_escape'
 module JsStringTemplates
   class Template < ::Tilt::Template
     include CompactJavaScriptEscape
-    JsStringTemplateWrapper = Tilt::ERBTemplate.new "#{File.dirname __FILE__}/jsstring_templates.js.erb"
+    JsStringTemplateWrapper = Tilt::ERBTemplate.new "#{File.dirname __FILE__}/jsstring-templates.js.erb"
     @@compressor = nil
 
     def self.default_mime_type
