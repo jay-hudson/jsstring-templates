@@ -22,7 +22,7 @@ module JsStringsTemplates
     def evaluate(scope, locals, &block)
       locals[:html] = escape_javascript data.chomp
       locals[:jsstrings_object_name] = logical_template_path(scope)
-      locals[:source_file] = "#{scope.pathname}".sub(/^#{Rails.root}\//,'')
+      locals[:source_file] = scope.pathname.sub(/^#{Rails.root}\//,'')
       locals[:jsstrings_object] = configuration.object_name
 
       if @asset_inside_rails_root
