@@ -3,9 +3,9 @@ module JsStringsTemplates
     # inspired by Rails' action_view/helpers/javascript_helper.rb
     JS_ESCAPE_MAP = {
       '\\'    => '\\\\',
-      "\r\n"  => '\n',
-      "\n"    => '\n',
-      "\r"    => '\n',
+      "\r\n"  => '',
+      "\n"    => '',
+      "\r"    => '',
       '"'     => '\\"',
       "'"     => "\\'"
     }
