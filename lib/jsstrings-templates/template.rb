@@ -9,7 +9,7 @@ module JsStringsTemplates
     def self.default_mime_type
       'application/javascript'
     end
-
+	
     def prepare
       # we only want to process html assets inside Rails.root/app/assets
       @asset_inside_rails_root = file.match "#{Rails.root.join 'app', 'assets'}"
@@ -22,7 +22,7 @@ module JsStringsTemplates
     def evaluate(scope, locals, &block)
       locals[:html] = escape_javascript data.chomp
       locals[:jsstrings_object_name] = logical_template_path(scope)
-      locals[:source_file] = scope.pathname.sub(/^#{Rails.root}\//,'')
+      locals[:source_file] = "#{scope.pathname}".sub(/^\"#{Rails.root}\//,'')
       locals[:jsstrings_object] = configuration.object_name
 
       if @asset_inside_rails_root
@@ -35,8 +35,8 @@ module JsStringsTemplates
     private
 
     def logical_template_path(scope)
-      #path = scope.logical_path.sub /^(#{configuration.ignore_prefix.join('|')})/, ''
-      path = "tt"
+      path = scope.logical_path.sub /^(#{configuration.ignore_prefix.join('|')})/, ''
+      "#{path}.html"
     end
 
     def configuration
