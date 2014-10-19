@@ -1,40 +1,46 @@
-require 'jsstring-templates/compact_javascript_escape'
+require 'jsstrings-templates/compact_javascript_escape'
 
-module JsStringTemplates
+module JsStringsTemplates
   class Template < ::Tilt::Template
     include CompactJavaScriptEscape
-    JsStringTemplateWrapper = Tilt::ERBTemplate.new "#{File.dirname __FILE__}/jsstring-templates.js.erb"
+    JsStringsTemplateWrapper = Tilt::ERBTemplate.new "#{File.dirname __FILE__}/javascript_template.js.erb"
     @@compressor = nil
 
     def self.default_mime_type
       'application/javascript'
     end
 
-    # this method is mandatory on Tilt::Template subclasses
     def prepare
-      if configuration.htmlcompressor
+      # we only want to process html assets inside Rails.root/app/assets
+      @asset_inside_rails_root = file.match "#{Rails.root.join 'app', 'assets'}"
+
+      if configuration.htmlcompressor and @asset_inside_rails_root
         @data = compress data
       end
     end
 
     def evaluate(scope, locals, &block)
       locals[:html] = escape_javascript data.chomp
-      locals[:jsstring_template_name] = logical_template_path(scope)
+      locals[:jsstrings_object_name] = logical_template_path(scope)
       locals[:source_file] = "#{scope.pathname}".sub(/^#{Rails.root}\//,'')
-      locals[:jsstring_object] = configuration.object_name
+      locals[:jsstrings_object] = configuration.object_name
 
-      JsStringTemplateWrapper.render(scope, locals)
+      if @asset_inside_rails_root
+        JsStringsTemplateWrapper.render(scope, locals)
+      else
+        data
+      end
     end
 
     private
 
     def logical_template_path(scope)
       path = scope.logical_path.sub /^(#{configuration.ignore_prefix.join('|')})/, ''
-      "#{path}"
+      "#{path}.html"
     end
 
     def configuration
-      ::Rails.configuration.jsstring_templates
+      ::Rails.configuration.jsstrings_templates
     end
 
     def compress html

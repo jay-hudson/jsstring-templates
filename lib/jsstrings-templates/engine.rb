@@ -1,12 +1,12 @@
 require 'tilt'
 
-module JsStringTemplates
+module JsStringsTemplates
   class Engine < ::Rails::Engine
-    config.jsstring_templates = ActiveSupport::OrderedOptions.new
-    config.jsstring_templates.object_name    = 'jsstrings'
-    config.jsstring_templates.ignore_prefix  = ['templates/']
-    config.jsstring_templates.markups        = []
-    config.jsstring_templates.htmlcompressor = false
+    config.jsstrings_templates = ActiveSupport::OrderedOptions.new
+    config.jsstrings_templates.object_name   = 'templates'
+    config.jsstrings_templates.ignore_prefix  = ['templates/']
+    config.jsstrings_templates.markups        = []
+    config.jsstrings_templates.htmlcompressor = false
 
     config.before_configuration do |app|
       # try loading common markups
@@ -14,7 +14,7 @@ module JsStringTemplates
       each do |ext|
         begin
           silence_warnings do
-            config.jsstring_templates.markups << ext if Tilt[ext]
+            config.jsstrings_templates.markups << ext if Tilt[ext]
           end
         rescue LoadError
           # They don't have the required library required. Oh well.
@@ -23,20 +23,20 @@ module JsStringTemplates
     end
 
 
-    initializer 'jsstring-templates' do |app|
+    initializer 'jsstrings-templates' do |app|
       if app.config.assets
         require 'sprockets'
         require 'sprockets/engines' # load sprockets for Rails 3
 
-        if app.config.jsstring_templates.htmlcompressor
+        if app.config.jsstrings_templates.htmlcompressor
           require 'htmlcompressor/compressor'
-          unless app.config.jsstring_templates.htmlcompressor.is_a? Hash
-            app.config.jsstring_templates.htmlcompressor = {remove_intertag_spaces: true}
+          unless app.config.jsstrings_templates.htmlcompressor.is_a? Hash
+            app.config.jsstrings_templates.htmlcompressor = {remove_intertag_spaces: true}
           end
         end
 
         # These engines render markup as HTML
-        app.config.jsstring_templates.markups.each do |ext|
+        app.config.jsstrings_templates.markups.each do |ext|
           # Processed haml/slim templates have a mime-type of text/html.
           # If sprockets sees a `foo.html.haml` it will process the haml
           # and stop, because the haml output is html. Our html engine won't get run.
@@ -50,7 +50,7 @@ module JsStringTemplates
         end
 
         # This engine wraps the HTML into JS
-        app.assets.register_engine '.html', JsStringTemplates::Template
+        app.assets.register_engine '.html', JsStringsTemplates::Template
       end
 
       # Sprockets Cache Busting
@@ -58,15 +58,15 @@ module JsStringTemplates
       app.config.assets.version = [
         app.config.assets.version,
         'ART',
-        Digest::MD5.hexdigest("#{VERSION}-#{app.config.jsstring_templates}")
+        Digest::MD5.hexdigest("#{VERSION}-#{app.config.jsstrings_templates}")
       ].join '-'
     end
 
 
     config.after_initialize do |app|
       # Ensure ignore_prefix can be passed as a String or Array
-      if app.config.jsstring_templates.ignore_prefix.is_a? String
-        app.config.jsstring_templates.ignore_prefix = Array(app.config.jsstring_templates.ignore_prefix)
+      if app.config.jsstrings_templates.ignore_prefix.is_a? String
+        app.config.jsstrings_templates.ignore_prefix = Array(app.config.jsstrings_templates.ignore_prefix)
       end
     end
   end

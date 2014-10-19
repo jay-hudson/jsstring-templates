@@ -1,15 +1,15 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "angular-rails-templates/version"
+require "jsstrings-templates-templates/version"
 
 Gem::Specification.new do |s|
-  s.name        = "angular-rails-templates"
-  s.version     = AngularRailsTemplates::VERSION
+  s.name        = "jsstrings-templates-templates"
+  s.version     = JsStringsTemplates::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Damien Mathieu", 'pitr', 'whitehat101']
-  s.email       = ["pitr.vern@gmail.com"]
-  s.homepage    = "https://github.com/pitr/angular-rails-templates"
-  s.summary     = "Use your angular templates with rails' asset pipeline"
+  s.authors     = ["Jay Hudson"]
+  s.email       = ["jkh30003@gmail.com@gmail.com"]
+  s.homepage    = "https://github.com/jay-hudson/jsstrings-templates"
+  s.summary     = "Turns your HTML templates into JavaScript string variables"
 
   s.files = %w(README.md LICENSE) + Dir["lib/**/*", "vendor/**/*"]
   s.license = 'MIT'

@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source "https://github.com/jay-hudson/jsstring-templates.git"
 
 gem "rails", github: "rails/rails"
 gem "slim-rails"

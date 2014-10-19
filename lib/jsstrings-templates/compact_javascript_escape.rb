@@ -1,4 +1,4 @@
-module JsStringTemplates
+module JsStringsTemplates
   module CompactJavaScriptEscape
     # inspired by Rails' action_view/helpers/javascript_helper.rb
     JS_ESCAPE_MAP = {
