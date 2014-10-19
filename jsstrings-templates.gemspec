@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "jsstrings-templates-templates/version"
+require "jsstrings-templates/version"
 
 Gem::Specification.new do |s|
-  s.name        = "jsstrings-templates-templates"
+  s.name        = "jsstrings-templates"
   s.version     = JsStringsTemplates::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Jay Hudson"]
