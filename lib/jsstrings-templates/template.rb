@@ -36,7 +36,6 @@ module JsStringsTemplates
 
     def logical_template_path(scope)
       path = scope.logical_path.sub /^(#{configuration.ignore_prefix.join('|')})/, ''
-      "#{path}.html"
     end
 
     def configuration
